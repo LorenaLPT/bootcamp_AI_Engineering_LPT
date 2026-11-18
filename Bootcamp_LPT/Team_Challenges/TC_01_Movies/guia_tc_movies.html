@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Challenge · Catálogo de Películas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --indigo:    #4F46E5;
+            --violet:    #7C3AED;
+            --sky:       #0EA5E9;
+            --lavender:  #C7D2FE;
+            --lilac:     #EDE9FE;
+            --amber:     #F59E0B;
+            --amber-lt:  #FEF3C7;
+            --green:     #10B981;
+            --green-lt:  #D1FAE5;
+            --rose:      #F43F5E;
+            --rose-lt:   #FFE4E6;
+            --cream:     #FAFAFA;
+            --white:     #FFFFFF;
+            --text-dark: #1E1B4B;
+            --text-mid:  #4C4A7A;
+            --text-lt:   #8B87B5;
+            --shadow:    rgba(79, 70, 229, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* ── HEADER ─────────────────────────────────────── */
+        header {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 60%, #0EA5E9 100%);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute; top: -80px; right: -80px;
+            width: 320px; height: 320px;
+            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        header::after {
+            content: '';
+            position: absolute; bottom: -100px; left: -100px;
+            width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(14,165,233,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.4);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            position: relative; z-index: 1;
+        }
+        h1 {
+            font-size: 3.2rem; font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            position: relative; z-index: 1;
+            text-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+        }
+        .header-sub {
+            color: rgba(255,255,255,0.85);
+            font-size: 1.2rem; font-weight: 500;
+            position: relative; z-index: 1;
+        }
+        .header-pills {
+            display: flex; flex-wrap: wrap; gap: 0.75rem;
+            justify-content: center;
+            margin-top: 2rem;
+            position: relative; z-index: 1;
+        }
+        .pill {
+            background: rgba(255,255,255,0.18);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            color: #fff;
+            font-size: 0.9rem; font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+        }
+
+        /* ── NAV ─────────────────────────────────────────── */
+        nav {
+            background: var(--white);
+            padding: 1.2rem 2rem;
+            border-bottom: 3px solid var(--lavender);
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+        nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: center; }
+        nav a {
+            color: var(--text-mid); text-decoration: none;
+            font-weight: 600; font-size: 1rem;
+            padding: 0.4rem 0;
+            position: relative; transition: color 0.3s;
+        }
+        nav a:hover { color: var(--indigo); }
+        nav a::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 3px;
+            background: linear-gradient(90deg, var(--indigo), var(--violet));
+            border-radius: 2px; transition: width 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* ── CONTAINER & SECTIONS ────────────────────────── */
+        .container { max-width: 1160px; margin: 0 auto; padding: 2rem; }
+
+        section {
+            margin: 2.5rem 0;
+            padding: 2.5rem;
+            background: var(--white);
+            border-radius: 20px;
+            border: 2.5px solid var(--lavender);
+            box-shadow: 0 8px 28px var(--shadow);
+        }
+
+        h2 {
+            font-size: 2.1rem; font-weight: 800;
+            color: var(--indigo);
+            margin-bottom: 2rem;
+            display: flex; align-items: center; gap: 0.9rem;
+        }
+        h2::before {
+            content: '';
+            width: 8px; height: 2.2rem;
+            background: linear-gradient(to bottom, var(--indigo), var(--sky));
+            border-radius: 4px; flex-shrink: 0;
+        }
+        h3 {
+            font-size: 1.55rem; font-weight: 700;
+            color: var(--violet);
+            margin: 2.5rem 0 1rem;
+        }
+        h4 {
+            font-size: 1.2rem; font-weight: 700;
+            color: var(--indigo);
+            margin: 1.75rem 0 0.75rem;
+        }
+        p { margin-bottom: 1.25rem; color: var(--text-mid); }
+        strong { color: var(--text-dark); font-weight: 700; }
+
+        ul, ol { margin: 1rem 0 1.25rem 2rem; color: var(--text-mid); }
+        li { margin: 0.6rem 0; }
+
+        /* ── CODE ────────────────────────────────────────── */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--lilac);
+            color: var(--violet);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.88em;
+            border: 1.5px solid var(--lavender);
+        }
+        pre {
+            background: #1E1B4B;
+            padding: 1.5rem 1.75rem;
+            border-radius: 14px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 2px solid #312E8D;
+        }
+        pre code {
+            background: none; border: none; padding: 0;
+            color: #C7D2FE;
+            font-size: 0.92rem; line-height: 1.85;
+        }
+        .cmd-block {
+            background: #1E1B4B;
+            border-left: 5px solid var(--sky);
+            padding: 1.25rem 1.5rem;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #BAE6FD;
+            font-size: 0.92rem;
+            margin: 1.25rem 0;
+        }
+        .cmd-block::before { content: '$ '; color: var(--sky); font-weight: 700; }
+
+        /* ── CALLOUTS ────────────────────────────────────── */
+        .warning {
+            background: var(--rose-lt);
+            border-left: 5px solid var(--rose);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px; margin: 1.5rem 0;
+        }
+        .warning::before {
+            content: '⚠️  Importante';
+            display: block; font-weight: 700;
+            color: var(--rose); margin-bottom: 0.5rem;
+        }
+        .tip {
+            background: var(--green-lt);
+            border-left: 5px solid var(--green);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px; margin: 1.5rem 0;
+        }
+        .tip::before {
+            content: '💡 Consejo';
+            display: block; font-weight: 700;
+            color: var(--green); margin-bottom: 0.5rem;
+        }
+        .info {
+            background: var(--lavender);
+            border-left: 5px solid var(--indigo);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px; margin: 1.5rem 0;
+            color: var(--text-dark);
+        }
+        .info::before {
+            content: 'ℹ️  Nota';
+            display: block; font-weight: 700;
+            color: var(--indigo); margin-bottom: 0.5rem;
+        }
+        .optional-badge {
+            display: inline-block;
+            background: var(--amber-lt);
+            color: #92400E;
+            border: 1.5px solid var(--amber);
+            font-size: 0.8rem; font-weight: 700;
+            padding: 0.2rem 0.7rem;
+            border-radius: 50px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* ── GRID & CARDS ────────────────────────────────── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem; margin: 1.5rem 0;
+        }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+
+        .card {
+            background: linear-gradient(135deg, #FAFAFE 0%, var(--lilac) 100%);
+            border: 2px solid var(--lavender);
+            border-radius: 16px; padding: 1.75rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--indigo);
+            box-shadow: 0 12px 28px rgba(79,70,229,0.18);
+        }
+        .card h4 { margin-top: 0; }
+
+        /* ── PARTE HEADER CARDS ──────────────────────────── */
+        .parte-header {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1.5rem 2rem;
+            border-radius: 16px; margin-bottom: 2rem;
+            border: 2px solid;
+        }
+        .parte-num {
+            font-size: 2.5rem; font-weight: 800;
+            line-height: 1; flex-shrink: 0;
+        }
+        .parte-1 { background: #EEF2FF; border-color: var(--indigo); }
+        .parte-1 .parte-num { color: var(--indigo); }
+        .parte-2 { background: #F0F9FF; border-color: var(--sky); }
+        .parte-2 .parte-num { color: var(--sky); }
+        .parte-3 { background: var(--lilac); border-color: var(--violet); }
+        .parte-3 .parte-num { color: var(--violet); }
+        .parte-4 { background: var(--amber-lt); border-color: var(--amber); }
+        .parte-4 .parte-num { color: #92400E; }
+        .parte-header-text h3 { margin: 0; font-size: 1.3rem; }
+        .parte-header-text p { margin: 0.25rem 0 0; font-size: 0.95rem; }
+
+        /* ── TASK LIST ───────────────────────────────────── */
+        .task-list { list-style: none; margin-left: 0; }
+        .task-list li {
+            padding: 0.7rem 0.75rem 0.7rem 2.75rem;
+            position: relative;
+            border-bottom: 1.5px solid var(--lavender);
+        }
+        .task-list li:last-child { border-bottom: none; }
+        .task-list li::before {
+            content: '';
+            position: absolute; left: 0.6rem; top: 50%;
+            transform: translateY(-50%);
+            width: 20px; height: 20px;
+            border: 2.5px solid var(--lavender);
+            border-radius: 5px;
+            background: var(--white);
+        }
+
+        /* ── BRANCH FLOW DIAGRAM ─────────────────────────── */
+        .branch-diagram {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1E1B4B;
+            color: #C7D2FE;
+            padding: 1.75rem 2rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 2.1;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 2px solid #312E8D;
+        }
+        .b-main  { color: #34D399; font-weight: 700; }
+        .b-dev   { color: #60A5FA; font-weight: 700; }
+        .b-feat  { color: #F9A8D4; font-weight: 700; }
+        .b-node  { color: #FCD34D; }
+        .b-arrow { color: #818CF8; }
+        .b-pr    { color: #F59E0B; font-weight: 700; }
+
+        /* ── STEP FLOW ───────────────────────────────────── */
+        .steps { display: flex; flex-direction: column; gap: 0; margin: 1.5rem 0; }
+        .step {
+            display: flex; gap: 1.25rem; align-items: flex-start;
+            padding: 1.25rem 0;
+            border-bottom: 1.5px dashed var(--lavender);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            flex-shrink: 0;
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--indigo), var(--violet));
+            color: #fff; font-weight: 800; font-size: 0.9rem;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-top: 0.1rem;
+        }
+        .step-content h4 { margin: 0 0 0.4rem; }
+        .step-content p { margin: 0; }
+
+        /* ── PR TEMPLATE CARD ────────────────────────────── */
+        .pr-template {
+            background: #F8FAFF;
+            border: 2px dashed var(--indigo);
+            border-radius: 14px;
+            padding: 1.5rem 1.75rem;
+            margin: 1.25rem 0;
+        }
+        .pr-template h4 { margin-top: 0; }
+
+        /* ── TABLE ───────────────────────────────────────── */
+        table {
+            width: 100%; border-collapse: collapse;
+            margin: 1.5rem 0; border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px var(--shadow);
+            border: 2px solid var(--lavender);
+        }
+        th {
+            background: linear-gradient(135deg, var(--indigo), var(--violet));
+            color: #fff; padding: 1rem 1.25rem;
+            text-align: left; font-weight: 700;
+        }
+        td { padding: 1rem 1.25rem; border-top: 1.5px solid var(--lavender); color: var(--text-mid); }
+        tr:hover { background: #F5F3FF; }
+
+        /* ── DELIVERABLES BOX ────────────────────────────── */
+        .deliverables {
+            background: linear-gradient(135deg, #EEF2FF, var(--lilac));
+            border: 2.5px solid var(--indigo);
+            border-radius: 16px; padding: 2rem;
+            margin: 1.5rem 0;
+        }
+        .deliverables h4 { margin-top: 0; color: var(--indigo); }
+
+        /* ── FOOTER ──────────────────────────────────────── */
+        footer {
+            text-align: center; padding: 3rem 2rem;
+            color: var(--text-lt);
+            border-top: 3px solid var(--lavender);
+            background: var(--white); margin-top: 3rem;
+        }
+        footer p { color: var(--text-lt); margin-bottom: 0.25rem; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            nav ul { flex-direction: column; gap: 1rem; align-items: center; }
+            section { padding: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .parte-num { font-size: 1.9rem; }
+        }
+    
+        /* ── AÑADIDOS: calendario, reparto, tablas ───────── */
+        .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+        .table-wrap table { margin: 0; }
+        table.compact td, table.compact th { padding: 0.7rem 0.9rem; font-size: 0.93rem; vertical-align: top; }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .card.role p { margin-bottom: 0.6rem; font-size: 0.97rem; }
+        .day { border: 2px solid var(--lavender); border-radius: 16px; padding: 1.25rem 1.5rem; margin: 1.25rem 0; background: #FCFCFF; }
+        .day-head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+        .day-num { background: linear-gradient(135deg, var(--indigo), var(--violet)); color: #fff; font-weight: 800; padding: 0.2rem 0.9rem; border-radius: 50px; font-size: 0.95rem; }
+        .day-title { font-size: 1.25rem; font-weight: 700; color: var(--violet); }
+        .day ul { margin: 0.75rem 0 0.75rem 1.5rem; }
+        .milestone { background: var(--amber-lt); border-left: 5px solid var(--amber); padding: 0.75rem 1rem; border-radius: 10px; color: #78350F; font-weight: 600; }
+        .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+        .flow-box { background: var(--indigo); color: #fff; padding: 0.35rem 0.8rem; border-radius: 8px; font-weight: 700; }
+        .flow-arrow { color: var(--text-mid); }
+        .nb-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: var(--lavender); color: var(--indigo); padding: 0.1rem 0.5rem; border-radius: 6px; vertical-align: middle; }
+        a { color: var(--indigo); }
+        .step-content { min-width: 0; flex: 1; }
+        .card { min-width: 0; }
+        .cmd-block { overflow-wrap: anywhere; }
+        .grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr)); }
+        code { overflow-wrap: anywhere; }
+        pre code { overflow-wrap: normal; }
+        @media (max-width: 768px) { .container { padding: 1rem; } .branch-diagram { font-size: 0.75rem; } nav ul { gap: 0.6rem; } }
+    </style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header>
+    <div class="header-badge">Bootcamp IA Generativa</div>
+    <h1>Team Challenge · Catálogo de Películas</h1>
+    <p class="header-sub">Pandas, APIs y Gemini en una semana y en equipo</p>
+    <div class="header-pills">
+        <span class="pill">📊 Pandas</span>
+        <span class="pill">🎬 TMDB API</span>
+        <span class="pill">🤖 Gemini AI</span>
+        <span class="pill">🌿 Git Flow</span>
+        <span class="pill">👥 Equipos de 3–4</span>
+        <span class="pill">📅 5 días</span>
+    </div>
+</header>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+    <ul>
+        <li><a href="#overview">El reto</a></li>
+        <li><a href="#calendario">Calendario</a></li>
+        <li><a href="#reparto">Reparto de funciones</a></li>
+        <li><a href="#git-flow">Git Flow</a></li>
+        <li><a href="#parte1">Parte 1 · Pandas</a></li>
+        <li><a href="#parte2">Parte 2 · TMDB</a></li>
+        <li><a href="#parte3">Parte 3 · Gemini</a></li>
+        <li><a href="#parte4">Bonus 4A</a></li>
+        <li><a href="#entregables">Entregables</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <!-- ══════════ OVERVIEW ══════════ -->
+    <section id="overview" style="background: linear-gradient(135deg,#EEF2FF,var(--lilac)); border-color: var(--indigo);">
+        <h2>¿De qué va este reto?</h2>
+        <p>Trabajáis con un dataset de películas clásico (MovieLens) y construís un <strong>catálogo enriquecido</strong> en tres fases: análisis de datos con Pandas, consumo de una API REST (TMDB) y generación de texto con Gemini. Si os sobra tiempo, hay un <strong>bonus</strong> con salida estructurada en JSON.</p>
+        <p>Tenéis <strong>una semana</strong>. Por eso el proyecto está dividido en <strong>cuatro notebooks independientes</strong>: cada persona trabaja en el suyo desde el primer día y los notebooks se pasan los datos mediante ficheros CSV.</p>
+
+        <h3>Mapa del proyecto</h3>
+        <div class="table-wrap">
+        <table>
+            <tr><th>Notebook</th><th>Parte</th><th>Qué se hace</th><th>Genera</th></tr>
+            <tr><td><code>01_ingesta_limpieza</code></td><td>Parte 1</td><td>Carga de los CSV y columna <code>year</code></td><td><code>movies_clean.csv</code></td></tr>
+            <tr><td><code>02_analisis</code></td><td>Parte 1</td><td><em>Merge</em>, agregaciones y 6 preguntas</td><td>—</td></tr>
+            <tr><td><code>03_tmdb</code></td><td>Parte 2</td><td>10 películas con <code>overview</code> y <code>homepage</code></td><td><code>movies10.csv</code></td></tr>
+            <tr><td><code>04_gemini</code></td><td>Parte 3 (+ 4A)</td><td>Sinopsis en español con Gemini</td><td><code>movies10_es.csv</code></td></tr>
+        </table>
+        </div>
+
+        <div class="flow">
+            <span class="flow-box">01 limpieza</span><span class="flow-arrow">→ movies_clean.csv →</span>
+            <span class="flow-box">02 análisis</span>
+            <span class="flow-box">03 TMDB</span><span class="flow-arrow">→ movies10.csv →</span>
+            <span class="flow-box">04 Gemini</span>
+        </div>
+        <div class="info">Los ficheros de <code>data/processed/</code> son el <strong>contrato</strong> entre notebooks: quien los genera los sube al repo cuanto antes. Mientras no existan, cada notebook trae una <strong>celda de carga</strong> que os deja avanzar con el CSV original o con datos de prueba. Nadie tiene que esperar a nadie.</div>
+
+        <div class="grid grid-2">
+            <div class="card">
+                <h4>📁 Datasets de partida (<code>data/</code>)</h4>
+                <ul style="margin-left:1rem;">
+                    <li><code>movies.csv</code> — títulos (con año) y géneros</li>
+                    <li><code>ratings.csv</code> — valoraciones de usuarios</li>
+                    <li><code>tags.csv</code> — etiquetas libres</li>
+                    <li><code>links.csv</code> — IDs externos (TMDB, IMDb)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🔑 Credenciales necesarias</h4>
+                <ul style="margin-left:1rem;">
+                    <li><strong>TMDB:</strong> <code>TMDB_READ_ACCESS_TOKEN</code> o <code>TMDB_API_KEY</code></li>
+                    <li><strong>Gemini:</strong> <code>GEMINI_API_KEY</code></li>
+                </ul>
+                <div class="warning" style="margin-top:0.75rem;">Las claves van en un fichero <code>.env</code> (incluido en <code>.gitignore</code>) y se cargan con <code>python-dotenv</code>. Nunca en el notebook ni en el repo.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ CALENDARIO ══════════ -->
+    <section id="calendario">
+        <h2>Calendario orientativo</h2>
+        <p>Cinco días de trabajo. Cada día termina con un <strong>hito</strong>: si al final del día no lo habéis alcanzado, comentadlo en la <em>daily</em> del día siguiente y reorganizaos.</p>
+
+        <div class="day">
+            <div class="day-head"><span class="day-num">Día 1</span><span class="day-title">Arranque y bases</span></div>
+            <ul>
+                <li><strong>Todo el equipo (primera hora):</strong> crear el repo, la rama <code>develop</code>, subir la <code>plantilla_repo/</code> (<code>requirements.txt</code>, <code>.env.example</code>, <code>.gitignore</code>, README) y acordar el reparto de funciones.</li>
+                <li><strong>Cada persona:</strong> clonar, crear su <code>venv</code>, instalar dependencias y su <code>.env</code>.</li>
+                <li><strong>Pedir las claves hoy</strong> de TMDB y Gemini (todos, aunque solo las use una persona) y probar el endpoint de TMDB en Postman.</li>
+                <li>Cada persona crea su rama <code>feature/...</code> desde <code>develop</code> y empieza su notebook.</li>
+            </ul>
+            <div class="milestone">🏁 Hito: PR de <code>feature/repo-setup</code> mergeada en <code>develop</code> y todos con el entorno funcionando.</div>
+        </div>
+
+        <div class="day">
+            <div class="day-head"><span class="day-num">Día 2</span><span class="day-title">Primeras piezas</span></div>
+            <ul>
+                <li><strong>01:</strong> apartados 1–2 terminados y PR con <code>movies_clean.csv</code> → <strong>prioridad del día</strong>, el resto lo necesita.</li>
+                <li><strong>02:</strong> apartado 3 (<em>merge</em>) con el CSV original; al mergear el 01, cambiar a <code>movies_clean.csv</code>.</li>
+                <li><strong>03:</strong> <code>fetch_movie_details</code> funcionando con una película.</li>
+                <li><strong>04:</strong> <code>summarize_overview_es</code> funcionando con los datos de prueba.</li>
+            </ul>
+            <div class="milestone">🏁 Hito: <code>movies_clean.csv</code> en <code>develop</code>. Cada función principal funciona al menos con un caso.</div>
+        </div>
+
+        <div class="day">
+            <div class="day-head"><span class="day-num">Día 3</span><span class="day-title">Completar las partes</span></div>
+            <ul>
+                <li><strong>02:</strong> apartado 4 (agregaciones) y PR de los apartados 3–4.</li>
+                <li><strong>03:</strong> bucle de las 10 películas, gestión de errores y PR con <code>movies10.csv</code>.</li>
+                <li><strong>04:</strong> en cuanto <code>movies10.csv</code> esté en <code>develop</code>, ejecutar con datos reales. PR de la Parte 3.</li>
+                <li><strong>Preguntas (apartado 5):</strong> empiezan cuando la PR de los apartados 3–4 esté mergeada (ver reparto).</li>
+            </ul>
+            <div class="milestone">🏁 Hito: partes 2 y 3 en <code>develop</code>; apartados 3–4 en <code>develop</code>.</div>
+        </div>
+
+        <div class="day">
+            <div class="day-head"><span class="day-num">Día 4</span><span class="day-title">Cerrar lo obligatorio</span></div>
+            <ul>
+                <li>Apartado 5 (6 preguntas) terminado y mergeado.</li>
+                <li>Revisiones pendientes y conflictos resueltos.</li>
+                <li><strong>Solo si todo lo anterior está en <code>develop</code>:</strong> bonus 4A en <code>feature/4a-catalogo</code>.</li>
+                <li>Borrador del README (instalación, claves, orden de ejecución).</li>
+            </ul>
+            <div class="milestone">🏁 Hito: <strong>todo lo obligatorio está en <code>develop</code></strong>.</div>
+        </div>
+
+        <div class="day">
+            <div class="day-head"><span class="day-num">Día 5</span><span class="day-title">Reproducibilidad y entrega</span></div>
+            <ul>
+                <li><strong>Prueba de reproducibilidad:</strong> una persona clona el repo en una carpeta nueva, sigue el README y ejecuta <code>01 → 04</code> con <em>Restart &amp; Run All</em>. Si algo falla, se arregla con una PR.</li>
+                <li>README final, mensajes de commit revisados y ramas viejas borradas.</li>
+                <li>PR final <code>develop → main</code> revisada por todo el equipo (con <em>merge commit</em>).</li>
+                <li>Preparad 3–5 minutos para contar qué habéis hecho y qué habéis aprendido.</li>
+            </ul>
+            <div class="milestone">🏁 Hito: <code>main</code> contiene la versión final y se puede ejecutar desde cero siguiendo el README.</div>
+        </div>
+
+        <div class="tip"><strong>Daily de 10 minutos cada mañana:</strong> cada persona responde a tres preguntas: ¿qué terminé ayer?, ¿qué haré hoy?, ¿qué me bloquea? Los bloqueos se resuelven ese mismo día.</div>
+    </section>
+
+    <!-- ══════════ REPARTO ══════════ -->
+    <section id="reparto">
+        <h2>Reparto de funciones</h2>
+        <p>Cada persona <strong>lidera un notebook</strong> (es la única que lo edita en su rama) y además tiene un <strong>rol transversal</strong>. Las PRs las revisa siempre alguien que no ha escrito ese código.</p>
+
+        <h3>Equipo de 4 personas</h3>
+        <div class="grid grid-4">
+            <div class="card role">
+                <h4>👤 A · Responsable de repo y datos</h4>
+                <p><strong>Lidera:</strong> <code>01_ingesta_limpieza</code> y, desde el día 3, el <strong>apartado 5</strong> (preguntas) en <code>02</code>.</p>
+                <p><strong>Rol transversal:</strong> crea el repo y <code>develop</code>, configura la protección de ramas, mantiene el README y abre la PR final <code>develop → main</code>.</p>
+                <p><strong>Revisa:</strong> PRs de B.</p>
+            </div>
+            <div class="card role">
+                <h4>👤 B · Analista de datos</h4>
+                <p><strong>Lidera:</strong> <code>02_analisis</code>, apartados 3–4 (<em>merge</em> y agregaciones) y su documentación.</p>
+                <p><strong>Rol transversal:</strong> calidad del código: docstrings, nombres claros, celdas ordenadas. Revisa que no queden celdas con errores.</p>
+                <p><strong>Revisa:</strong> PRs de A.</p>
+            </div>
+            <div class="card role">
+                <h4>👤 C · Integración con APIs</h4>
+                <p><strong>Lidera:</strong> <code>03_tmdb</code>. Si sobra tiempo, el <strong>bonus 4A</strong> (cuando la Parte 3 esté mergeada).</p>
+                <p><strong>Rol transversal:</strong> gestión de claves: <code>.env.example</code>, que nadie suba claves y que el README explique cómo conseguirlas.</p>
+                <p><strong>Revisa:</strong> PRs de D.</p>
+            </div>
+            <div class="card role">
+                <h4>👤 D · IA generativa</h4>
+                <p><strong>Lidera:</strong> <code>04_gemini</code>, Parte 3 (prompt, función y columna <code>overview_es</code>).</p>
+                <p><strong>Rol transversal:</strong> QA y reproducibilidad: el día 5 clona el repo desde cero y ejecuta todo siguiendo el README.</p>
+                <p><strong>Revisa:</strong> PRs de C.</p>
+            </div>
+        </div>
+
+        <h3>Equipo de 3 personas</h3>
+        <div class="grid grid-3">
+            <div class="card role">
+                <h4>👤 A · Repo y datos</h4>
+                <p><strong>Lidera:</strong> <code>01_ingesta_limpieza</code> y, desde el día 3, el apartado 5 (preguntas). Si sobra tiempo, el bonus 4A.</p>
+                <p><strong>Rol transversal:</strong> repo, ramas, README y PR final <code>develop → main</code>.</p>
+                <p><strong>Revisa:</strong> PRs de B.</p>
+            </div>
+            <div class="card role">
+                <h4>👤 B · Análisis</h4>
+                <p><strong>Lidera:</strong> <code>02_analisis</code>, apartados 3–4.</p>
+                <p><strong>Rol transversal:</strong> calidad del código y QA de reproducibilidad del día 5.</p>
+                <p><strong>Revisa:</strong> PRs de C.</p>
+            </div>
+            <div class="card role">
+                <h4>👤 C · APIs e IA generativa</h4>
+                <p><strong>Lidera:</strong> <code>03_tmdb</code> y <code>04_gemini</code> (son cortos y van seguidos: el 04 usa la salida del 03).</p>
+                <p><strong>Rol transversal:</strong> gestión de claves y <code>.env.example</code>.</p>
+                <p><strong>Revisa:</strong> PRs de A.</p>
+            </div>
+        </div>
+
+        <h3>Quién hace qué cada día (equipo de 4)</h3>
+        <div class="table-wrap">
+        <table class="compact">
+            <tr><th></th><th>A · Repo y datos</th><th>B · Análisis</th><th>C · APIs</th><th>D · IA generativa</th></tr>
+            <tr><td><strong>Día 1</strong></td><td>Crea repo y <code>develop</code>, sube plantilla. Empieza 01</td><td>Entorno. Explora tablas y claves de unión</td><td>Claves TMDB, Postman, autenticación</td><td>Clave Gemini, primer prompt con datos de prueba</td></tr>
+            <tr><td><strong>Día 2</strong></td><td>Termina 01 → PR <code>movies_clean.csv</code></td><td>Apartado 3 (<em>merge</em>)</td><td><code>fetch_movie_details</code></td><td><code>summarize_overview_es</code></td></tr>
+            <tr><td><strong>Día 3</strong></td><td>Revisa PR de B. Empieza apartado 5</td><td>Apartado 4 → PR 3–4</td><td>Bucle 10 películas → PR <code>movies10.csv</code></td><td>Datos reales → PR Parte 3</td></tr>
+            <tr><td><strong>Día 4</strong></td><td>Apartado 5 → PR. Borrador README</td><td>Revisa PR de A. Calidad del código</td><td>Bonus 4A (opcional)</td><td>Revisa PR de C. Pruebas</td></tr>
+            <tr><td><strong>Día 5</strong></td><td>README final, PR <code>develop → main</code></td><td>Revisión final</td><td>Revisión final</td><td>Prueba de reproducibilidad</td></tr>
+        </table>
+        </div>
+        <div class="tip">El reparto es una propuesta: lo importante es que <strong>cada notebook tenga una sola persona editándolo a la vez</strong> y que todos hagáis al menos una PR y al menos una revisión. Si alguien termina antes, ayuda revisando o hace el bonus en su propia rama.</div>
+    </section>
+
+    <!-- ══════════ GIT FLOW ══════════ -->
+    <section id="git-flow">
+        <h2>Git Flow del proyecto</h2>
+
+        <p>Usáis una versión adaptada de Git Flow con tres niveles de rama. La norma de oro: <strong>nunca se hace commit directo a <code>main</code> ni a <code>develop</code></strong>; todo entra por <em>pull request</em>.</p>
+
+        <h3>Estructura de ramas</h3>
+
+        <div class="branch-diagram">
+<span class="b-main">main</span>        <span class="b-arrow">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> versión estable
+                                          <span class="b-arrow">↑ PR final (merge commit, día 5)</span>
+<span class="b-dev">develop</span>     <span class="b-arrow">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> integración
+               <span class="b-arrow">↑ PR</span>          <span class="b-arrow">↑ PR</span>         <span class="b-arrow">↑ PR</span>        <span class="b-arrow">↑ PR</span>   <span class="b-arrow">(squash and merge)</span>
+<span class="b-feat">feature/01-limpieza</span>  <span class="b-feat">feature/02-analisis</span>  <span class="b-feat">feature/03-tmdb</span>  <span class="b-feat">feature/04-gemini</span>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h4>🟢 <code>main</code></h4>
+                <p>Versión estable y revisada. Solo se actualiza con <strong>una PR desde <code>develop</code></strong> al final de la semana.</p>
+                <ul>
+                    <li>Se mergea con <strong>Create a merge commit</strong> (no <em>squash</em>)</li>
+                    <li>Nunca <code>git push</code> directo</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🔵 <code>develop</code></h4>
+                <p>Rama de integración: aquí se juntan las partes día a día.</p>
+                <ul>
+                    <li>Se crea una sola vez desde <code>main</code> (día 1)</li>
+                    <li>Las <em>features</em> entran con <strong>Squash and merge</strong></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🌸 <code>feature/nombre</code></h4>
+                <p>Ramas cortas de un solo propósito.</p>
+                <ul>
+                    <li>Siempre desde <code>develop</code> actualizado</li>
+                    <li>Se borran tras el merge</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info"><strong>¿Por qué no <em>squash</em> de <code>develop</code> a <code>main</code>?</strong> El <em>squash</em> crea en <code>main</code> un commit nuevo que <code>develop</code> no tiene. La siguiente vez que intentéis llevar <code>develop</code> a <code>main</code>, Git verá historiales distintos y aparecerán conflictos que no existen. Con <em>merge commit</em> las dos ramas comparten historia.</div>
+
+        <h3>Nombres de ramas recomendados</h3>
+        <div class="table-wrap">
+        <table>
+            <tr><th>Tarea</th><th>Rama</th><th>Responsable (equipo de 4)</th></tr>
+            <tr><td>Setup inicial del repo</td><td><code>feature/repo-setup</code></td><td>A</td></tr>
+            <tr><td>Notebook 01 · limpieza</td><td><code>feature/01-limpieza</code></td><td>A</td></tr>
+            <tr><td>Notebook 02 · apartados 3–4</td><td><code>feature/02-analisis</code></td><td>B</td></tr>
+            <tr><td>Notebook 02 · apartado 5</td><td><code>feature/02-preguntas</code></td><td>A (tras mergear la de B)</td></tr>
+            <tr><td>Notebook 03 · TMDB</td><td><code>feature/03-tmdb</code></td><td>C</td></tr>
+            <tr><td>Notebook 04 · Gemini</td><td><code>feature/04-gemini</code></td><td>D</td></tr>
+            <tr><td>Bonus 4A</td><td><code>feature/4a-catalogo</code></td><td>C (tras mergear la de D)</td></tr>
+            <tr><td>README final</td><td><code>docs/readme-final</code></td><td>A</td></tr>
+        </table>
+        </div>
+
+        <h3>Setup inicial del repositorio (día 1)</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Crear el repositorio en GitHub (persona A)</h4>
+                    <p>New repository → nombre sugerido: <code>tc-catalogo-peliculas</code>, <strong>público</strong>, inicializado con README. Añadid al resto en Settings → Collaborators.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Proteger <code>main</code> y <code>develop</code></h4>
+                    <p>Settings → Rules → Rulesets → <em>New branch ruleset</em> (o Settings → Branches → <em>Add classic branch protection rule</em>). Aplicadlo a <code>main</code> y <code>develop</code> y marcad: ✅ Require a pull request before merging, ✅ 1 approval, ✅ Dismiss stale approvals.</p>
+                    <div class="warning" style="margin-bottom:0;">En cuentas gratuitas, la protección de ramas <strong>solo funciona en repositorios públicos</strong>. Si el repo es privado y no tenéis GitHub Pro (incluido en el <a href="https://education.github.com/pack">GitHub Student Developer Pack</a>), la opción aparecerá pero no se aplicará: en ese caso, cumplid la norma "todo por PR" a mano.</div>
+                    <div class="tip" style="margin-bottom:0;">Opcional pero recomendable: cuando exista <code>develop</code>, ponedla como rama por defecto (Settings → General → <em>Default branch</em>). Así las PR proponen <code>develop</code> como base y al clonar ya estáis en ella. La PR final hacia <code>main</code> se elige a mano.</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Crear <code>develop</code> y subir la plantilla (persona A)</h4>
+<pre><code>git clone https://github.com/vuestro-usuario/tc-catalogo-peliculas.git
+cd tc-catalogo-peliculas
+git switch -c develop
+git push -u origin develop
+
+git switch -c feature/repo-setup
+# copiad aquí plantilla_repo/ (requirements.txt, .env.example, .gitignore, README),
+# la carpeta data/ y los 4 notebooks
+git add .
+git commit -m "chore: estructura inicial del proyecto"
+git push -u origin feature/repo-setup
+# → PR hacia develop</code></pre>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h4>Todos clonan y configuran el entorno</h4>
+<pre><code>git clone https://github.com/vuestro-usuario/tc-catalogo-peliculas.git
+cd tc-catalogo-peliculas
+git config --global pull.rebase false   # una sola vez por ordenador (ver nota)
+git switch develop
+python -m venv venv
+source venv/bin/activate       # Mac/Linux
+venv\Scripts\activate          # Windows
+pip install -r requirements.txt
+cp .env.example .env           # y editad .env con vuestras claves</code></pre>
+                    <p>Es la misma configuración del pre-work del taller de Git. La línea <code>git config --global pull.rebase false</code> evita el error <em>"fatal: Need to specify how to reconcile divergent branches"</em> que dan las versiones recientes de Git al hacer <code>git pull</code> cuando hay cambios en los dos lados.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>Workflow diario</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Partir siempre de <code>develop</code> actualizado</h4>
+<pre><code>git switch develop
+git pull origin develop
+git switch -c feature/mi-tarea</code></pre>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Trabajar y hacer commits pequeños y descriptivos</h4>
+                    <p>Antes de cada commit de un notebook: <strong>Kernel → Restart &amp; Run All</strong>, para que las salidas guardadas correspondan al código.</p>
+<pre><code>git add 01_ingesta_limpieza.ipynb data/processed/movies_clean.csv
+git commit -m "feat: función year_from_title"
+git commit -m "fix: reconocer años en títulos con espacios finales"</code></pre>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Traer lo nuevo de <code>develop</code> a vuestra rama (cuando otro haya mergeado)</h4>
+<pre><code>git fetch origin
+git merge origin/develop</code></pre>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h4>Subir la rama y abrir PR hacia <code>develop</code></h4>
+<pre><code>git push -u origin feature/mi-tarea
+# → en GitHub: Compare &amp; pull request, base: develop</code></pre>
+                    <p>⚠️ Comprobad que la base de la PR es <code>develop</code> y no <code>main</code> (GitHub propone <code>main</code> por defecto).</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <h4>Un compañero revisa, aprueba y se hace <em>Squash and merge</em></h4>
+                    <p>El revisor lee los cambios en <em>Files changed</em>, comenta lo que no entienda y aprueba con <em>Approve</em>. Después, <strong>Squash and merge</strong> y borrar la rama.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">6</div>
+                <div class="step-content">
+                    <h4>Sincronizar localmente</h4>
+<pre><code>git switch develop
+git pull origin develop
+git branch -D feature/mi-tarea   # -D porque con squash Git no la ve como mergeada</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <h3>Formato de commits: Conventional Commits</h3>
+        <div class="table-wrap">
+        <table>
+            <tr><th>Prefijo</th><th>Cuándo usarlo</th><th>Ejemplo</th></tr>
+            <tr><td><code>feat:</code></td><td>Nueva funcionalidad</td><td><code>feat: función fetch_movie_details con TMDB</code></td></tr>
+            <tr><td><code>fix:</code></td><td>Corrección de bug</td><td><code>fix: manejar tmdbId nulo en links.csv</code></td></tr>
+            <tr><td><code>docs:</code></td><td>Documentación</td><td><code>docs: instrucciones de claves en README</code></td></tr>
+            <tr><td><code>refactor:</code></td><td>Reorganizar sin cambiar el resultado</td><td><code>refactor: extraer groupby a una función</code></td></tr>
+            <tr><td><code>chore:</code></td><td>Mantenimiento</td><td><code>chore: actualizar requirements.txt</code></td></tr>
+        </table>
+        </div>
+
+        <h3>Plantilla de Pull Request</h3>
+        <div class="pr-template">
+            <h4>Descripción del PR — <code>feature/03-tmdb</code></h4>
+<pre><code>## ¿Qué hace este PR?
+- Implementa `fetch_movie_details(tmdb_id)`
+- Añade `overview` y `homepage` a movies10
+- Si una petición falla (404, timeout) deja los campos vacíos y continúa
+- Guarda data/processed/movies10.csv
+
+## Cómo probarlo
+1. Rellenar TMDB_READ_ACCESS_TOKEN en .env
+2. Ejecutar 03_tmdb.ipynb con Restart &amp; Run All
+
+## Checklist
+- [x] Notebook ejecutado de principio a fin sin errores
+- [x] No hay claves en el código ni en las salidas
+- [x] requirements.txt actualizado si hace falta</code></pre>
+        </div>
+
+        <h3>Manejo de conflictos</h3>
+        <p>Un conflicto ocurre cuando dos ramas modifican las mismas líneas. Al hacer <code>git merge origin/develop</code>, Git marcará los ficheros:</p>
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD          ← vuestra versión
+...
+=======
+...                    ← versión de develop
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/develop
+
+# Editad dejando lo correcto, borrad las marcas y:
+git add fichero_resuelto
+git commit --no-edit      # cierra el merge con el mensaje por defecto (no es un "fix")
+git push
+
+# ¿Te has liado? Cancela el merge y vuelve a como estabas:
+git merge --abort</code></pre>
+        <div class="warning"><strong>Conflictos en notebooks (<code>.ipynb</code>):</strong> un notebook es un JSON enorme con las salidas dentro, así que sus conflictos son casi imposibles de resolver a mano. Por eso <strong>cada notebook tiene un único responsable</strong>. Si aun así os pasa, quedaos con una de las dos versiones completas: <code>git restore --ours fichero.ipynb</code> (la de vuestra rama) o <code>git restore --theirs fichero.ipynb</code> (la de <code>develop</code>), después <code>git add fichero.ipynb</code> y rehaced a mano los cambios que falten.</div>
+    </section>
+
+    <!-- ══════════ PARTE 1 ══════════ -->
+    <section id="parte1">
+        <div class="parte-header parte-1">
+            <div class="parte-num">01</div>
+            <div class="parte-header-text">
+                <h3>Data Analytics con Pandas</h3>
+                <p>Notebooks <code>01_ingesta_limpieza</code> (apartados 1–2) y <code>02_analisis</code> (apartados 3–5)</p>
+            </div>
+        </div>
+
+        <h3>1 · Ingesta de datos <small class="nb-tag">01</small></h3>
+        <ul class="task-list">
+            <li>Cargar los cuatro CSV con Pandas desde <code>data/</code></li>
+            <li>Inspeccionar cada DataFrame: <code>shape</code>, columnas, <code>dtypes</code>, <code>head()</code> y conteo de nulos</li>
+            <li>¿Cuántas películas hay en <code>movies</code>?</li>
+        </ul>
+
+        <h3>2 · Columna <code>year</code> desde el título <small class="nb-tag">01</small></h3>
+        <ul class="task-list">
+            <li><code>year_from_title(title)</code>: año entero si el título termina en <code>(AAAA)</code>, <strong>aunque haya espacios detrás</strong>; <code>NaN</code> si no</li>
+            <li>Columna <code>year</code> de tipo <code>Int64</code> (entero que admite nulos)</li>
+            <li>Limpiar <code>title</code>: sin el año y sin espacios en los extremos</li>
+            <li>Contar y mostrar los títulos sin año (y decidir qué hacer con el título que tiene un rango de años)</li>
+            <li>Pasar la celda de comprobación y guardar <code>data/processed/movies_clean.csv</code></li>
+        </ul>
+
+        <h3>3 · Merge <small class="nb-tag">02</small></h3>
+        <ul class="task-list">
+            <li>Identificar las claves entre tablas (<code>movieId</code>)</li>
+            <li>Construir <strong>las dos</strong> tablas: <code>ratings_movies</code> (valoraciones + título, año y géneros) y <code>tags_movies</code></li>
+            <li>Usar <code>validate="many_to_one"</code> y comparar el número de filas antes y después</li>
+            <li>Documentar: tipo de unión, filas perdidas o duplicadas y películas sin valoraciones</li>
+        </ul>
+
+        <h3>4 · Agregaciones y segmentación <small class="nb-tag">02</small></h3>
+        <ul class="task-list">
+            <li><code>groupby</code> con al menos una agregación de varias columnas (<code>agg</code>)</li>
+            <li>Comparar dos segmentos: usuarios con muchas vs. pocas valoraciones, o películas por <strong>década</strong></li>
+        </ul>
+
+        <h3>5 · Preguntas sobre los datos <small class="nb-tag">02</small></h3>
+        <div class="card">
+            <h4>Responder con código (una celda por pregunta):</h4>
+            <ol style="margin-left:1.25rem;">
+                <li>¿Cuántas películas tienen "Dracula" en el título (sin distinguir mayúsculas)?</li>
+                <li>Películas con "Exorcist", de la más antigua a la más moderna</li>
+                <li>¿Cuántas entre 1950 y 1959, ambos incluidos?</li>
+                <li>Películas con título <strong>exactamente</strong> <code>Batman</code> y su año (hay más de una) vs. las que <strong>contienen</strong> "Batman"</li>
+                <li>¿Cuántas tienen a la vez los <strong>géneros</strong> <code>Sci-Fi</code> y <code>Adventure</code>? Mostrad 10</li>
+                <li>Tag más repetida, sin normalizar y normalizada. ¿Describe la película?</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ══════════ PARTE 2 ══════════ -->
+    <section id="parte2">
+        <div class="parte-header parte-2">
+            <div class="parte-num">02</div>
+            <div class="parte-header-text">
+                <h3>Petición HTTP a la API de TMDB</h3>
+                <p>Notebook <code>03_tmdb</code> · enriquecer 10 películas con datos de The Movie Database</p>
+            </div>
+        </div>
+
+        <h3>Endpoint</h3>
+        <div class="cmd-block">GET https://api.themoviedb.org/3/movie/{tmdb_id}</div>
+        <p>El <code>tmdb_id</code> viene de la columna <code>tmdbId</code> de <code>links.csv</code>.</p>
+
+        <h3>Tareas</h3>
+        <ul class="task-list">
+            <li>Cargar las credenciales del <code>.env</code> con <code>load_dotenv()</code> (o <code>getpass</code> si no hay <code>.env</code>)</li>
+            <li><code>movies10</code>: las 10 primeras películas (por <code>movieId</code>) que tengan <code>tmdbId</code></li>
+            <li><code>fetch_movie_details(tmdb_id)</code>: una petición con <code>timeout</code>; devuelve <code>overview</code> y <code>homepage</code> (vacíos si son nulos)</li>
+            <li>Si una petición falla (404, <em>timeout</em>…), campos vacíos, aviso por pantalla y <strong>seguir</strong> con la siguiente</li>
+            <li>Añadir ambas columnas a <code>movies10</code> y guardar <code>data/processed/movies10.csv</code></li>
+        </ul>
+
+        <h3>Autenticación</h3>
+        <div class="grid grid-2">
+            <div class="card">
+                <h4>Opción A — Bearer Token (recomendada)</h4>
+<pre><code>from dotenv import load_dotenv
+load_dotenv()
+headers = {
+    "Authorization": f"Bearer {os.getenv('TMDB_READ_ACCESS_TOKEN')}"
+}
+resp = requests.get(url, headers=headers, timeout=15)</code></pre>
+            </div>
+            <div class="card">
+                <h4>Opción B — API Key</h4>
+<pre><code>from dotenv import load_dotenv
+load_dotenv()
+params = {"api_key": os.getenv("TMDB_API_KEY")}
+resp = requests.get(url, params=params, timeout=15)</code></pre>
+            </div>
+        </div>
+        <div class="tip">Probad el endpoint en <strong>Postman</strong> antes de programar. Es mucho más rápido depurar allí que en el notebook.</div>
+        <div class="warning">No guardéis claves en el notebook ni en ningún fichero que se suba al repositorio. Cuidado también con las <strong>salidas</strong>: no imprimáis la clave para "comprobar que funciona".</div>
+    </section>
+
+    <!-- ══════════ PARTE 3 ══════════ -->
+    <section id="parte3">
+        <div class="parte-header parte-3">
+            <div class="parte-num">03</div>
+            <div class="parte-header-text">
+                <h3>Sinopsis en español con Gemini</h3>
+                <p>Notebook <code>04_gemini</code> · traducir y resumir los <code>overview</code> de TMDB</p>
+            </div>
+        </div>
+
+        <div class="info">Mientras <code>movies10.csv</code> no esté en <code>develop</code>, la celda de carga os da <strong>datos de prueba</strong>. Requiere <code>pip install google-genai python-dotenv</code>.</div>
+
+        <h3>Tareas</h3>
+        <ul class="task-list">
+            <li>Configurar <code>GEMINI_API_KEY</code> en el <code>.env</code> y crear el cliente <code>genai.Client()</code></li>
+            <li>Definir el modelo en <strong>una sola constante</strong>: <code>MODEL = "gemini-3.5-flash-lite"</code></li>
+            <li><code>summarize_overview_es(overview, title="")</code>: resumen en español de <strong>máximo 2 frases</strong></li>
+            <li>Si <code>overview</code> está vacío o es nulo, devolver <code>""</code> <em>sin llamar a la API</em>; si <code>response.text</code> es <code>None</code>, devolver <code>""</code></li>
+            <li>Añadir la columna <code>overview_es</code>, mostrar 3 películas y guardar <code>movies10_es.csv</code></li>
+        </ul>
+
+        <div class="card">
+            <h4>Esqueleto de la función</h4>
+            <pre><code>import os
+import pandas as pd
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+client = genai.Client()            # lee GEMINI_API_KEY del entorno
+MODEL = "gemini-3.5-flash-lite"
+
+def summarize_overview_es(overview, title: str = "") -> str:
+    if pd.isna(overview) or not str(overview).strip():
+        return ""
+    prompt = (
+        f"Película: {title}\n"
+        f"Sinopsis original: {overview}\n\n"
+        "Resume esta sinopsis en español en máximo 2 frases."
+    )
+    resp = client.models.generate_content(model=MODEL, contents=prompt)
+    return (resp.text or "").strip()</code></pre>
+        </div>
+        <div class="warning">Google retira modelos con frecuencia: <code>gemini-2.0-flash</code> ya no funciona. Si recibís <code>404 / model not found</code>, consultad la <a href="https://ai.google.dev/gemini-api/docs/models">lista de modelos actual</a> y cambiad solo la constante <code>MODEL</code>.</div>
+    </section>
+
+    <!-- ══════════ PARTE 4A ══════════ -->
+    <section id="parte4">
+        <div class="parte-header parte-4">
+            <div class="parte-num">4A</div>
+            <div class="parte-header-text">
+                <h3>Catálogo ampliado con JSON <span class="optional-badge">Bonus</span></h3>
+                <p>Solo si las partes 1–3 están mergeadas en <code>develop</code>. Se hace en <code>04_gemini</code>, en la rama <code>feature/4a-catalogo</code>.</p>
+            </div>
+        </div>
+
+        <p>Añadid a <code>movies10</code>, con <strong>una llamada por película que devuelva JSON</strong>:</p>
+        <ul>
+            <li><strong><code>pitch_es</code></strong>: texto de cartelera en español (máx. 280 caracteres)</li>
+            <li><strong><code>edad_sugerida</code></strong>: uno de <code>TP</code>, <code>+7</code>, <code>+12</code>, <code>+16</code>, <code>+18</code></li>
+            <li><strong><code>temas</code></strong>: exactamente 3 temas en español (texto separado por comas)</li>
+        </ul>
+        <p>Función: <code>enrich_catalog_fields(overview, title="", genres="", year=None)</code>. Pedid JSON con <code>types.GenerateContentConfig(response_mime_type="application/json", temperature=0)</code> y <strong>validad</strong> la respuesta (JSON legible, edad permitida). Basad la respuesta solo en la sinopsis y los metadatos.</p>
+    </section>
+
+    <!-- ══════════ ENTREGABLES ══════════ -->
+    <section id="entregables">
+        <h2>Entregables y criterios de evaluación</h2>
+
+        <div class="deliverables">
+            <h4>📦 Repositorio de GitHub — lo que debe contener en <code>main</code></h4>
+            <ul class="task-list">
+                <li>Los 4 notebooks ejecutados en orden (<code>01 → 04</code>) sin errores y con salidas</li>
+                <li><code>data/processed/</code> con <code>movies_clean.csv</code>, <code>movies10.csv</code> y <code>movies10_es.csv</code></li>
+                <li><code>README.md</code> con: equipo y reparto, cómo clonar, instalar, configurar claves y orden de ejecución</li>
+                <li><code>requirements.txt</code>, <code>.env.example</code> (sin valores) y <code>.gitignore</code></li>
+                <li>Historial de commits con mensajes descriptivos</li>
+                <li>Al menos una PR hecha y una revisión por cada miembro del equipo</li>
+            </ul>
+        </div>
+
+        <h3>Checklist de calidad</h3>
+        <ul class="task-list">
+            <li>Las celdas se ejecutan de principio a fin con <em>Restart &amp; Run All</em></li>
+            <li>Las funciones tienen docstring o comentario de propósito</li>
+            <li>El <em>merge</em> está justificado (tipo de unión, filas perdidas)</li>
+            <li>No hay claves en ningún fichero ni en ninguna salida</li>
+            <li>Alguien que no es del equipo podría reproducir el proyecto siguiendo el README</li>
+        </ul>
+
+        <h3>Referencia rápida de comandos</h3>
+        <div class="grid grid-2">
+            <div class="card">
+                <h4>Setup inicial</h4>
+                <pre><code>git clone URL
+cd repo
+git config --global pull.rebase false
+git switch develop
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env</code></pre>
+            </div>
+            <div class="card">
+                <h4>Workflow diario</h4>
+                <pre><code>git switch develop
+git pull origin develop
+git switch -c feature/mi-tarea
+# ... trabajar ...
+git add &lt;ficheros&gt;
+git commit -m "feat: descripción"
+git push -u origin feature/mi-tarea
+# → PR en GitHub con base: develop</code></pre>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>Portfolio tip:</strong> si el README es bueno y el historial de commits está limpio, este proyecto puede vivir en vuestro GitHub como muestra de trabajo en equipo profesional.
+        </div>
+    </section>
+
+</div><!-- /container -->
+
+<footer>
+    <p>Team Challenge · Catálogo de Películas</p>
+    <p>Bootcamp IA Generativa · The Bridge Tech</p>
+</footer>
+
+</body>
+</html>
